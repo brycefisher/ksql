@@ -68,8 +68,8 @@ json_array_length(json_string) -> Integer
 ```
 
 Given a string, parses it as a JSON value and returns the length of the top-level array. Returns
-`NULL` if the string can't be interpreted as a JSON array, i.e., it is `NULL` or it does not contain
-valid JSON, or the JSON value is not an array.
+`NULL` if the string can't be interpreted as a JSON array, i.e., it is `NULL` or the JSON value 
+is not an array.
 
 #### Examples
 
@@ -79,8 +79,8 @@ json_array_length("[1, [1, [2]], 3]") // returns 3
 json_array_length("[]") // returns 0
 json_array_length("{}") // returns NULL
 json_array_length("123") // returns NULL
-json_array_length("abc") // returns NULL
 json_array_length(NULL) // returns NULL
+json_array_length("abc") // throws "Invalid JSON format"
 ```
 
 ### json_keys
@@ -91,7 +91,7 @@ json_keys(json_string) -> Array<String>
 
 Given a string, parses it as a JSON object and returns a ksqlDB array of strings representing the
 top-level keys. Returns `NULL` if the string can't be interpreted as a JSON object, i.e., it is
-`NULL` or it does not contain valid JSON, or the JSON value is not an object.
+`NULL` or the JSON value is not an object.
 
 #### Examples
 
@@ -101,8 +101,8 @@ json_keys("{}") // returns []
 json_keys("[]") // returns NULL
 json_keys("") // returns NULL
 json_keys("123") // returns NULL
-json_keys("abc") // returns NULL
 json_keys(NULL) // returns NULL
+json_keys("abc") // throws "Invalid JSON format"
 ```
 
 ### json_records
@@ -113,8 +113,7 @@ json_records(json_string) -> Array<Struct<json_key:String, json_value:String>>
 
 Given a string, parses it as a JSON object and returns a ksqlDB array of structs containing 2 
 strings - `json_key` and `json_value` representing the top-level keys and values. Returns `NULL` if 
-the string can't be interpreted as a JSON object, i.e. it is `NULL` or it does not contain valid 
-JSON, or the JSON value is not an object.
+the string can't be interpreted as a JSON object, i.e. it is `NULL` or the JSON value is not an object.
 
 #### Examples
 
@@ -124,8 +123,8 @@ json_records("{}") // returns []
 json_records("[]") // returns NULL
 json_records("") // returns NULL
 json_records("123") // returns NULL
-json_records("abc") // returns NULL
 json_records(NULL) // returns NULL
+json_records("abc") // throws "Invalid JSON format"
 ```
 
 #### Rejected alternatives
@@ -164,7 +163,7 @@ Concatenation rules are identical to PostgreSQL's [|| operator](https://www.post
 * If both strings deserialize into JSON arrays, then return the result of array concatenation.
 * If at least one of the deserialized values is not an object, then convert non-array inputs to a
   single-element array and return the result of array concatenation.
-* If at least one of the input strings is `NULL` or can't be deserialized as JSON, then return `NULL`.
+* If at least one of the input strings is `NULL`, then return `NULL`.
 
 Akin to PostgreSQL's `||` operator, this function merges only top-level object keys or arrays.
 
@@ -181,8 +180,8 @@ json_concat("[1, 2]", "{\"a\": 1}") // returns "[1, 2, {\"a\": 1}]"
 json_concat("[1, 2]", "3") // returns "[1, 2, 3]"
 json_concat("1", "2") // returns "[1, 2]"
 json_concat("[]", "[]") // returns []
-json_concat("abc", "[1]") // returns NULL
 json_concat(NULL, "[1]") // returns NULL
+json_concat("abc", "[1]") // throws "Invalid JSON format"
 ```
 
 #### Rejected alternatives
