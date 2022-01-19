@@ -23,17 +23,11 @@ import io.confluent.ksql.function.KsqlFunctionException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.junit.Before;
 import org.junit.Test;
 
 public class JsonKeysTest {
 
-  private JsonKeys udf;
-
-  @Before
-  public void setUp() throws Exception {
-    udf = new JsonKeys();
-  }
+  private static final JsonKeys udf = new JsonKeys();
 
   @Test
   public void shouldReturnObjectKeys() {
