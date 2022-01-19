@@ -790,7 +790,7 @@ json_keys(json_string) -> Array<String>
 ```
 
 Given a string, parses it as a JSON object and returns a ksqlDB array of strings representing the
-top-level keys. Returns `NULL` if the string can't be interpreted as a JSON object, i.e., it is
+top-level keys. Returns `NULL` if the string can't be interpreted as a JSON object, for example, when it is
 `NULL` or the JSON value is not an object.
 
 Examples:
