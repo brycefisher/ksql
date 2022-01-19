@@ -32,8 +32,9 @@ import java.util.List;
     category = FunctionCategory.JSON,
     description = "Given a string, parses it as a JSON object and returns a ksqlDB array of "
         + "strings representing the top-level keys. Returns NULL if the string can't be "
-        + "interpreted as a JSON object, i.e., it is NULL or it does not contain valid JSON, or "
-        + "the JSON value is not an object.",
+        + "interpreted as a JSON object, for example, when the string is NULL or the JSON value is "
+        + "not an object. This function throws `Invalid JSON format` if the string can't be "
+        + "interpreted as a JSON value.",
     author = KsqlConstants.CONFLUENT_AUTHOR
 )
 public class JsonKeys {
