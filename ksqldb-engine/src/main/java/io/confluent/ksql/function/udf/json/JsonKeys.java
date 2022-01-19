@@ -15,11 +15,8 @@
 
 package io.confluent.ksql.function.udf.json;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectReader;
 import io.confluent.ksql.function.FunctionCategory;
-import io.confluent.ksql.function.KsqlFunctionException;
 import io.confluent.ksql.function.udf.Udf;
 import io.confluent.ksql.function.udf.UdfDescription;
 import io.confluent.ksql.function.udf.UdfParameter;
@@ -39,15 +36,13 @@ import java.util.List;
 )
 public class JsonKeys {
 
-  private static final ObjectReader OBJECT_READER = UdfJsonMapper.INSTANCE.get().reader();
-
   @Udf
   public List<String> keys(@UdfParameter final String jsonObj) {
     if (jsonObj == null) {
       return null;
     }
 
-    final JsonNode node = parseJson(jsonObj);
+    final JsonNode node = UdfJsonMapper.parseJson(jsonObj);
     if (node.isMissingNode() || !node.isObject()) {
       return null;
     }
@@ -55,13 +50,5 @@ public class JsonKeys {
     final List<String> ret = new ArrayList<>();
     node.fieldNames().forEachRemaining(ret::add);
     return ret;
-  }
-
-  private static JsonNode parseJson(final String jsonString) {
-    try {
-      return OBJECT_READER.readTree(jsonString);
-    } catch (final JacksonException e) {
-      throw new KsqlFunctionException("Invalid JSON format:" + jsonString, e);
-    }
   }
 }
