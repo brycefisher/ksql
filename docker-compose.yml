@@ -120,4 +120,4 @@ services:
       PORT: 9021
 
       # Schema Registry
-      CONTROL_CENTER_SCHEMA_REGISTRY_SR1_URL: http://schema-registry:8081
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
