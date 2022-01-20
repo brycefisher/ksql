@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package mux.hackweek;
+
+message RiderLocation {
+  string profileId = 1; // Example: "c2309eec"
+  double latitude = 2; // Example: 37.7877
+  double longitude = 3; // Example: -122.4205
+}
