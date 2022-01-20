@@ -111,6 +111,9 @@ services:
       # general settings
       CONTROL_CENTER_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
 
+      # kSQLdb settings
+      CONTROL_CENTER_KSQL_DEFAULT_URL: primary-ksqldb-server:8088
+
       # HTTP and HTTPS to Control Center UI
       CONTROL_CENTER_REST_LISTENERS: http://0.0.0.0:9021,https://0.0.0.0:9022
       CONTROL_CENTER_REPLICATION_FACTOR: 1
