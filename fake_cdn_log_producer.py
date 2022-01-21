@@ -1,5 +1,6 @@
 import json
 import math
+import random
 import time
 from datetime import datetime, timezone
 
@@ -12,12 +13,18 @@ topic = client.topics['cdn-logs']
 with topic.get_sync_producer() as producer:
     while True:
         now = math.floor(datetime.now(timezone.utc).timestamp() * 1000)
+        duration = random.randint(1,5)
+        asset_id = random.randint(1000000,9999999)
+        environment_id = random.randint(1,4)
+        status_code = random.choices([200, 206, 304, 404, 416],
+                                     [ 50,  15,  25,   5,   5])
+
         record = {
-            "asset_id": 1,
+            "asset_id": asset_id,
             "request_begin": now, # int (unix timestamp in milliseconds)
-            "segment_duration": 5, # int (seconds of video content)
-            "status_code": 200,
-            "environment_id": 1,
+            "segment_duration": duration, # int (seconds of video content)
+            "status_code": status_code[0],
+            "environment_id": environment_id,
         }
         print(record)
         msg = json.dumps(record).encode('utf-8')
