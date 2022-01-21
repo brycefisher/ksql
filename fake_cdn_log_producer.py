@@ -9,7 +9,7 @@ from pykafka import KafkaClient
 print('Hi from fake producer')
 
 client = KafkaClient(hosts="localhost:29092")
-topic = client.topics['cdn-logs']
+topic = client.topics['cdn-logs-json']
 with topic.get_sync_producer() as producer:
     while True:
         now = math.floor(datetime.now(timezone.utc).timestamp() * 1000)
