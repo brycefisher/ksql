@@ -1,5 +1,5 @@
 #!/bin/bash -eu
 
-pip install pykafka
+pip3 install pykafka
 
-python fake_cdn_log_producer.py
+python3 fake_cdn_log_producer.py
