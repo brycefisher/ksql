@@ -11,10 +11,12 @@ print('Hi from fake producer')
 client = KafkaClient(hosts="localhost:29092")
 topic = client.topics['cdn-logs-json']
 with topic.get_sync_producer() as producer:
+    asset_ids = [random.randint(1000,9999), random.randint(1000, 9999), random.randint(1000, 9999)]
     while True:
         now = math.floor(datetime.now(timezone.utc).timestamp() * 1000)
         duration = random.randint(1,5)
-        asset_id = random.randint(1000000,9999999)
+        # asset_id = random.randint(1,100)
+        asset_id = random.choices(asset_ids, [100,1, 1])[0]
         environment_id = random.randint(1,4)
         status_code = random.choices([200, 206, 304, 404, 416],
                                      [ 50,  15,  25,   5,   5])
@@ -29,4 +31,4 @@ with topic.get_sync_producer() as producer:
         print(record)
         msg = json.dumps(record).encode('utf-8')
         producer.produce(msg)
-        time.sleep(0.1)
+        time.sleep(0.01)
