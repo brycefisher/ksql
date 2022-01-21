@@ -122,3 +122,13 @@ services:
 
       # Schema Registry
       CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  producer:
+    image: python:3.9
+    depends_on:
+      - kafka
+      - schema-registry
+    volumes:
+      - ./fake_cdn_log_producer.py:/fake_cdn_log_producer.py
+      - ./producer_entrypoint.sh:/entrypoint.sh
+    entrypoint: /entrypoint.sh
